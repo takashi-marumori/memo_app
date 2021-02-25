@@ -8,7 +8,7 @@ app.use(express.urlencoded({extended: false}));
 const connection = mysql.createConnection({
   host: 'localhost',
   user: 'root',
-  password: 'secret',
+
   database: 'memo_app'
 });
 
