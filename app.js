@@ -1,6 +1,8 @@
 const express = require('express');
 const mysql = require('mysql');
 const app = express();
+const session = require('express-session');
+const bcrypt = require('bcrypt');
 
 app.use(express.static('public'));
 app.use(express.urlencoded({extended: false}));
