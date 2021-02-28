@@ -1,6 +1,7 @@
 const express = require('express');
 const mysql = require('mysql');
 const app = express();
+const env = require('dotenv').config()
 const session = require('express-session');
 const bcrypt = require('bcrypt');
 
@@ -10,7 +11,7 @@ app.use(express.urlencoded({extended: false}));
 const connection = mysql.createConnection({
   host: 'localhost',
   user: 'root',
-
+  password: process.env.NODE_PASS,
   database: 'memo_app'
 });
 
