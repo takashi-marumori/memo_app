@@ -103,7 +103,7 @@ header {
   border-bottom: 1px solid #f0f4f9;
 }
 
-.header-logo {
+.header-logo-left {
   margin-left: 56px;
   font-size: 20px;
   line-height: 56px;
@@ -111,8 +111,25 @@ header {
   display: inline;
 }
 
-.header-logo:hover {
+.header-logo-left:hover {
   color: #58d2b2;
+}
+
+.header-logo-right {
+  margin-left: 56px;
+  font-size: 20px;
+  line-height: 56px;
+  color: #6c7686;
+  display: inline;
+}
+
+.header-logo-right:hover {
+  color: #58d2b2;
+}
+
+.header-wrapper{
+  display: flex;
+  justify-content: space-between;
 }
 
 /* container ================================ */
@@ -282,4 +299,70 @@ header {
   background-color: #ffffff;
   color: #80bcff;
   transition: all 0.3s ease;
+}
+
+/*モーダル*/
+.signup-modal-wrapper {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background-color: rgba(0, 0, 0, 0.6);
+  z-index: 100;
+  display: none;
+}
+
+.modal {
+  position: absolute;
+  top: 20%;
+  left: 34%;
+  background-color: #e6ecf0;
+  padding: 20px 0 40px;
+  border-radius: 10px;
+  width: 450px;
+  height: auto;
+  text-align: center;
+}
+
+.fa-times {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  color: rgba(128, 128, 128, 0.46);
+  cursor: pointer;
+}
+
+#signup-form {
+  width: 100%;
+}
+
+#signup-form h2 {
+  color: #5f5d60;
+  letter-spacing: 1px;
+  margin-bottom: 40px;
+}
+
+#signup-form input {
+  width: 320px;
+  margin-bottom: 20px;
+  font-size: 12px;
+  padding: 12px 12px;
+  border: 1px solid #d0d5d8;
+  border-radius: 5px;
+}
+
+#submit-btn {
+  display: inline-block;
+  padding: 14px 140px;
+  background-color: #5dca88;
+  border: none;
+  border-radius: 3px;
+  color: white;
+  margin: 10px auto;
+  cursor: pointer;
+}
+
+.fa {
+  margin-right: 5px;
 }
