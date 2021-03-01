@@ -71,7 +71,7 @@ input {
 
 .top-detail .description {
   font-size: 30px;
-  margin-bottom: 40px;
+  margin-top: 40px;
   display:none;
 }
 
@@ -116,7 +116,7 @@ header {
 }
 
 .header-logo-right {
-  margin-left: 56px;
+  margin-right: 56px;
   font-size: 20px;
   line-height: 56px;
   color: #6c7686;
@@ -125,6 +125,7 @@ header {
 
 .header-logo-right:hover {
   color: #58d2b2;
+  cursor: pointer;
 }
 
 .header-wrapper{
@@ -302,7 +303,7 @@ header {
 }
 
 /*モーダル*/
-.signup-modal-wrapper {
+.signup-modal-wrapper,.login-modal-wrapper{
   position: fixed;
   top: 0;
   right: 0;
@@ -333,17 +334,17 @@ header {
   cursor: pointer;
 }
 
-#signup-form {
+#signup-form,#login-form{
   width: 100%;
 }
 
-#signup-form h2 {
+#signup-form h2,.login-form h2 {
   color: #5f5d60;
   letter-spacing: 1px;
   margin-bottom: 40px;
 }
 
-#signup-form input {
+#signup-form input,#login-form input {
   width: 320px;
   margin-bottom: 20px;
   font-size: 12px;
@@ -352,7 +353,7 @@ header {
   border-radius: 5px;
 }
 
-#submit-btn {
+#submit-btn,#login-btn{
   display: inline-block;
   padding: 14px 140px;
   background-color: #5dca88;

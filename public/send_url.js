@@ -26,7 +26,6 @@ function addQuery() {
 function getUrlWithQuery(url) {
   var query = 'containerPort=3000&languageName=nodejs'
 
-  // ブラウザバック等による多重付加対策
   var parser = document.createElement('a')
   parser.href = url
   if (parser.search.match(/containerPort|languageName/)) {

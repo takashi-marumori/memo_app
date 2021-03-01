@@ -15,6 +15,14 @@ const connection = mysql.createConnection({
   database: 'memo_app'
 });
 
+app.use(
+  session({
+    secret: 'my_secret_key',
+    resave: false,
+    saveUninitialized: false,
+  })
+)
+
 app.get('/', (req, res) => {
   res.render('top.ejs');
 });
@@ -63,7 +71,6 @@ app.get('/edit/:id', (req, res) => {
 });
 
 app.post('/update/:id', (req, res) => {
-  // 選択されたメモを更新する処理を書いてください
   connection.query(
     'UPDATE items SET name = ? WHERE id =?',
     [req.body.itemName,req.params.id],
@@ -71,6 +78,36 @@ app.post('/update/:id', (req, res) => {
       res.redirect('/index');
     });
 
+});
+
+app.post('/sign_up',(req,res) => {
+  connection.query(
+    'SELECT * FROM users',
+    (error, results) => {
+      res.render('sign_up.ejs', {users: results});
+    }
+  );
+});
+
+app.post('/log_in', (req,res) => {
+  const email = req.body.email;
+  connection.query(
+    'SELECT * FROM users WHERE email = ?',
+    [email],
+    (error,results) => {
+      if(results.length > 0){
+        if(req.body.password === results[0].password){
+          console.log('成功');
+          res.redirect('top');
+        } else{
+          console.log('失敗');
+          res.redirect('top');
+        }
+      } else {
+        res.redirect('top');
+      }
+    }
+  )
 });
 
 app.listen(3000);
