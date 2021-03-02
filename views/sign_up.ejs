@@ -5,10 +5,11 @@
     </div>
     <div id="signup-form">
       <h2>新規登録</h2>
-      <form action="#">
-        <input class="form-control" type="text" placeholder="メールアドレス">
-        <input class="form-control" type="password" placeholder="パスワード">
-        <div id="submit-btn">新規登録</div>
+      <form action="/sign_up" method="post">
+        <input class="form-control" type="text" placeholder="ユーザー名" name="username">
+        <input class="form-control" type="text" placeholder="メールアドレス" name="email">
+        <input class="form-control" type="password" placeholder="パスワード" name="password">
+        <input id="submit-btn" type="submit" value="登録する">
       </form>
     </div>
   </div>

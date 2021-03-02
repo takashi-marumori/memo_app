@@ -1,8 +1,8 @@
 const express = require('express');
 const mysql = require('mysql');
+const session = require('express-session');
 const app = express();
 const env = require('dotenv').config()
-const session = require('express-session');
 const bcrypt = require('bcrypt');
 
 app.use(express.static('public'));
@@ -22,6 +22,17 @@ app.use(
     saveUninitialized: false,
   })
 )
+
+app.use((req, res, next) => {
+  if (req.session.userId === undefined) {
+    res.locals.username = 'ゲスト';
+    res.locals.isLoggedIn = false;
+  } else {
+    res.locals.username = req.session.username;
+    res.locals.isLoggedIn = true;
+  }
+  next();
+});
 
 app.get('/', (req, res) => {
   res.render('top.ejs');
@@ -81,33 +92,46 @@ app.post('/update/:id', (req, res) => {
 });
 
 app.post('/sign_up',(req,res) => {
-  connection.query(
-    'SELECT * FROM users',
+  const username = req.body.username;
+  const email = req.body.email;
+  const password = req.body.password;
+  
+connection.query(
+    'INSERT INTO users (username, email, password) VALUES (?, ?, ?)',
+    [username, email, password],
     (error, results) => {
-      res.render('sign_up.ejs', {users: results});
+      req.session.userId = results.insertId
+      req.session.username = username;
+      res.redirect('/');
     }
   );
 });
 
-app.post('/log_in', (req,res) => {
+app.post('/log_in', (req, res) => {
   const email = req.body.email;
   connection.query(
     'SELECT * FROM users WHERE email = ?',
     [email],
-    (error,results) => {
-      if(results.length > 0){
-        if(req.body.password === results[0].password){
-          console.log('成功');
-          res.redirect('top');
-        } else{
-          console.log('失敗');
-          res.redirect('top');
-        }
+    (error, results) => {
+      if (results.length > 0) {
+        if (req.body.password === results[0].password){
+          req.session.userId = results[0].id;
+          req.session.username = results[0].username;
+          res.redirect('/');
+        } else {
+          res.redirect('/');
+        }    
       } else {
-        res.redirect('top');
+        res.redirect('/');
       }
     }
-  )
+  );
+});
+
+app.get('/log_out', (req, res) => {
+  req.session.destroy(error => {
+    res.redirect('/');
+  });
 });
 
 app.listen(3000);
