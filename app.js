@@ -96,15 +96,17 @@ app.post('/sign_up',(req,res) => {
   const email = req.body.email;
   const password = req.body.password;
   
-connection.query(
-    'INSERT INTO users (username, email, password) VALUES (?, ?, ?)',
-    [username, email, password],
-    (error, results) => {
-      req.session.userId = results.insertId
-      req.session.username = username;
-      res.redirect('/');
-    }
-  );
+  bcrypt.hash(password,10,(error,hash) => {
+    connection.query(
+      'INSERT INTO users (username, email, password) VALUES (?, ?, ?)',
+      [username, email, hash],
+      (error, results) => {
+        req.session.userId = results.insertId;
+        req.session.username = username;
+        res.redirect('/');
+      }
+    );
+  });
 });
 
 app.post('/log_in', (req, res) => {
@@ -114,13 +116,17 @@ app.post('/log_in', (req, res) => {
     [email],
     (error, results) => {
       if (results.length > 0) {
-        if (req.body.password === results[0].password){
+        const plain = req.body.password;
+        const hash = results[0].password;
+        bcrypt.compare(plain,hash,(error,isEqual) => {
+          if(isEqual){
           req.session.userId = results[0].id;
-          req.session.username = results[0].username;
-          res.redirect('/');
-        } else {
-          res.redirect('/');
-        }    
+            req.session.username = results[0].username;
+            res.redirect('/');
+          } else {
+            res.redirect('/');
+          }
+        });
       } else {
         res.redirect('/');
       }
