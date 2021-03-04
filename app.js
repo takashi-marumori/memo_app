@@ -91,11 +91,25 @@ app.post('/update/:id', (req, res) => {
 
 });
 
-app.post('/sign_up',(req,res) => {
-  const username = req.body.username;
+app.post('/sign_up',
+(req, res, next) => {
   const email = req.body.email;
-  const password = req.body.password;
   
+  connection.query(
+    'SELECT * FROM users WHERE email = ?',
+    [email],
+    (error, results) => {
+      if (results.length > 0) {
+        res.redirect('/');
+      } else {
+        next();
+      }
+    }
+  );
+  
+},
+
+(req,res) => {
   bcrypt.hash(password,10,(error,hash) => {
     connection.query(
       'INSERT INTO users (username, email, password) VALUES (?, ?, ?)',
