@@ -38,6 +38,10 @@ app.get('/', (req, res) => {
   res.render('top.ejs');
 });
 
+app.get('/uniq_error',(req,res) =>{
+  res.render('uniq_error.ejs');
+});
+
 app.get('/index', (req, res) => {
   connection.query(
     'SELECT * FROM items',
@@ -100,7 +104,7 @@ app.post('/sign_up',
     [email],
     (error, results) => {
       if (results.length > 0) {
-        res.redirect('/');
+        res.render('uniq_error.ejs');
       } else {
         next();
       }
